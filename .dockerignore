@@ -1,0 +1,16 @@
+# Virtual Environments
+venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Jupyter and Testing
+.jupyter/
+.ipynb_checkpoints/
+.pytest_cache/
+*.ipynb
+
+# Raw Data (The API doesn't need this, it only needs the .pkl model)
+creditcard.csv
