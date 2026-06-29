@@ -28,19 +28,19 @@ Precision-Recall AUC was used instead of ROC-AUC because, on a 1:577 class imbal
 
 ## How it works
 
-**1. Handling class imbalance — SMOTE**
+**1. Handling class imbalance — SMOTE:**:
 Rather than training on the raw 1:577 imbalance, [SMOTE](https://imbalanced-learn.org/) (Synthetic Minority Over-sampling) generates synthetic fraud examples via interpolation between real fraud cases, balancing the training set before the model ever sees it.
 
-**2. Model — XGBoost, tuned via RandomizedSearchCV**
+**2. Model — XGBoost, tuned via RandomizedSearchCV:**
 SMOTE and XGBoost are chained into a single `imblearn` pipeline so resampling happens *inside* each cross-validation fold (avoiding data leakage from the validation set into training). Hyperparameters were tuned with `RandomizedSearchCV` (20 iterations, 3-fold stratified CV, scored on average precision) across learning rate, max depth, number of estimators, subsample, and column subsample ratios.
 
-**3. Experiment tracking — MLflow**
+**3. Experiment tracking — MLflow:**
 Every tuning run is logged to MLflow (`mlflow.db`, SQLite backend) via `mlflow.sklearn.autolog()` — parameters, metrics, and the best run are queried programmatically in `train.py` rather than copy-pasted by hand.
 
-**4. Business-driven decision threshold**
+**4. Business-driven decision threshold:**
 Rather than the default 0.5 cutoff, the classification threshold was chosen by walking the precision-recall curve to find a recall-first operating point — deliberately catching more fraud at the cost of some false positives, since in fraud detection a missed fraud is typically far more costly than a false alarm.
 
-**5. Interpretability — SHAP**
+**5. Interpretability — SHAP:**
 SHAP values were computed to understand *which* transaction features drive the model's fraud predictions, rather than treating XGBoost as a black box.
 
 <p align="center">
