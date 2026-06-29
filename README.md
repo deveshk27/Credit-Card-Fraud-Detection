@@ -28,7 +28,7 @@ Precision-Recall AUC was used instead of ROC-AUC because, on a 1:577 class imbal
 
 ## How it works
 
-**1. Handling class imbalance — SMOTE:**:
+**1. Handling class imbalance — SMOTE:**
 Rather than training on the raw 1:577 imbalance, [SMOTE](https://imbalanced-learn.org/) (Synthetic Minority Over-sampling) generates synthetic fraud examples via interpolation between real fraud cases, balancing the training set before the model ever sees it.
 
 **2. Model — XGBoost, tuned via RandomizedSearchCV:**
@@ -126,7 +126,7 @@ Here's a genuine row taken directly from the [Kaggle Credit Card Fraud dataset](
 
 Feeding this into `/predict` correctly returns a low `risk_score` and `is_flagged: false`, matching its true label.
 
-> 📊 **Want to test against an actual fraud case?** The dataset only contains 492 fraud examples out of ~285,000 rows (`Class: 1`), and none were printed in this project's notebooks — so rather than fabricate one, grab a real fraud row yourself: download `creditcard.csv` from the [Kaggle page](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud), then run `df[df['Class'] == 1].sample(1)` to pull one out and feed its `V1`–`V28`/`Time`/`Amount` values into the payload above.
+> 📊 **Want to test against an actual fraud case?** The dataset only contains 492 fraud examples out of ~285,000 rows (`Class: 1`), so grab a real fraud row : download `creditcard.csv` from the [Kaggle page](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud), then run `df[df['Class'] == 1].sample(1)` to pull one out and feed its `V1`–`V28`/`Time`/`Amount` values into the payload above.
 
 ## API reference
 
