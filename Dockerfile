@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8000
 
 # 7. The terminal command the container runs when it starts up
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port ${PORT:-8000}"]
