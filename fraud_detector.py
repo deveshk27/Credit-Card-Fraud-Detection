@@ -3,13 +3,19 @@ import numpy as np
 import joblib
 from xgboost import XGBClassifier
 from imblearn.over_sampling import SMOTE
-from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, precision_recall_curve, auc
 
 class FraudDetectionModel :
-    def __init__(self, random_state: int = 42) -> None:
+    def __init__(self, random_state: int = 42, **xgb_params) -> None:
         self.random_state : int = random_state
-        self.model : XGBClassifier = XGBClassifier(random_state=random_state, eval_metric='logloss')
+        self.threshold = xgb_params.pop("threshold", 0.20) # default fallback of threshold
+
+        self.model : XGBClassifier = XGBClassifier(
+            random_state=random_state, 
+            eval_metric='logloss',
+            **xgb_params
+        )
+        
         self.smote : SMOTE = SMOTE(random_state=random_state)
 
     def fit_resample(self, X_train : pd.DataFrame , y_train : pd.Series) -> None :
@@ -27,12 +33,12 @@ class FraudDetectionModel :
 
     def evaluate(self, X_test : pd.DataFrame , y_test : pd.Series ) -> float :
         """Evaluates model using PR-AUC and a classification report."""
+
         y_pred_proba : np.ndarray = self.predict_proba(X_test)
 
-        custom_threshold : float = 0.20
-        y_pred : np.ndarray = (y_pred_proba >= custom_threshold).astype(int)
+        y_pred : np.ndarray = (y_pred_proba >= self.threshold).astype(int)
 
-        print(f"\n--- Classification Report ({int(custom_threshold*100)}% Threshold) ---")
+        print(f"\n--- Classification Report ({int(self.threshold*100)}% Threshold) ---")
         print(classification_report(y_test, y_pred))
 
         precision, recall, _ = precision_recall_curve(y_test, y_pred_proba)

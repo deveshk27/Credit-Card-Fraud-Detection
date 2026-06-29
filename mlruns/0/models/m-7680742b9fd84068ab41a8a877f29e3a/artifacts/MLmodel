@@ -1,0 +1,15 @@
+artifact_path: /Users/dk/Desktop/fraud-detection-mle/mlruns/0/models/m-7680742b9fd84068ab41a8a877f29e3a/artifacts
+flavors:
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+mlflow_version: 3.14.0
+model_id: m-7680742b9fd84068ab41a8a877f29e3a
+model_size_bytes: 95074
+model_uuid: m-7680742b9fd84068ab41a8a877f29e3a
+prompts: null
+run_id: f4bc3e000f5a4c1faeeb134b1fd2943c
+utc_time_created: '2026-06-29 19:09:57.307572'
